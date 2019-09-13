@@ -814,20 +814,20 @@ if (isset($_COOKIE['user'])) {
 					. $subselectdenominator . $subselectnumerator . $numeratorexclusionsstring
 					. $denominatorexclusionsstring . $queryvariableexclusionstringnumerator;
 
-						echo "<br />";
-						echo "<br />";
-						echo "<br />";
-						echo "<br />";
 						if($DEBUG_MODE){
+							echo "<br />";
+							echo "<br />";
+							echo "<br />";
+							echo "<br />";	
 							echo $numeratorsql;
 						}
 
 			$denominatorsql = $select . $fromdenominator . $wheredenominator . $subselectdenominator . $denominatoronly
 					. $denominatorexclusionsstring;
 
-						echo "<br />";
-						echo "<br />";
 						if($DEBUG_MODE){
+							echo "<br />";
+							echo "<br />";
 							echo $denominatorsql;
 						}
 
