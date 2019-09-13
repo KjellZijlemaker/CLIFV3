@@ -3,3 +3,8 @@ A clinical indicators formalization tool adapted from Kathrin's CLIF tool and Li
 
 ## PHP7
 This version has been adapted to work with the newest version of PHP7 and mysql.
+
+## SQL
+If the original SQL tables are not working properly, try the updated SQL tables.
+
+Tables which can be used for the patients and indicators can be changed in the utils.

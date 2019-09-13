@@ -10,8 +10,8 @@ $commentcomment = "Please document all questions that you had, ambiguities and h
 $db = "localhost";
 $db_user = "root";
 $db_pass = "";
-$dbname = "indicators";
-$patientsdbname = "patients";
+$dbname = "scriptie";
+$patientsdbname = "patients_new";
 $snomeddbname = "snomedct_full";
 
 $patienttables = array("patient", "firstpage", "lab_test", "examination", "treatment");
@@ -46,16 +46,22 @@ function error($error, $query, $step, $userid, $indicatorid)
 	}
 }
 
-function PrepSQL($value)
-{
-
-	if(get_magic_quotes_gpc())
-	{
+//function does not work anymore, rework in the future
+//function PrepSQL($value, $db_link)
+//{
+	//not available anymore in php7
+//	if(get_magic_quotes_gpc())
+//	{
 		$value = stripslashes($value);
-	}
+//	}
 
-	$value = mysql_real_escape_string($value);
-	return($value);
+	//$value = mysqli_real_escape_string($db_link, $result);
+//	return($value);
+//}
+
+function PrepSQL($value) {
+    $unwanted = array("'"); // add any unwanted char to this array
+    return str_ireplace($unwanted, '', $value);
 }
 
 function getRelation($relation) {

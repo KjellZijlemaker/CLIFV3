@@ -307,7 +307,7 @@ if (isset($_COOKIE['user'])) {
 				error(mysqli_error());
 			mysqli_select_db($db_link, $patientsdbname);
 			while ($variablerow = mysqli_fetch_array($variables)) {
-				$variableattributes = mysqli_query("DESCRIBE `$variablerow[table]`");
+				$variableattributes = mysqli_query($db_link, "DESCRIBE `$variablerow[table]`");
 				if (!$variableattributes)
 					error(mysqli_error());
 				while ($variableattributerow = mysqli_fetch_array($variableattributes)) {

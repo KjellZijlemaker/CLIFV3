@@ -118,13 +118,13 @@ if (isset($_COOKIE['user'])) {
 								'$indicatortext',
 								'$textSNOMED',
 								NOW())";
-						mysqli_query($sql);
+						mysqli_query($db_link,$sql);
 						$textConcept = "";
 						$textSNOMED = "";
 					}
 					//}
 					//}
-					mysqli_free_result($fsnresult);
+					// mysqli_free_result($fsnresult);
 				}
 			}
 ?>

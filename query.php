@@ -1,6 +1,7 @@
 <?php
 require_once 'inc/util.inc';
 require_once 'inc/queryutil.inc';
+$DEBUG_MODE = false;
 session_start();
 $_SESSION['error_num'] = "";
 $_SESSION['error_denom'] = "";
@@ -817,14 +818,18 @@ if (isset($_COOKIE['user'])) {
 						echo "<br />";
 						echo "<br />";
 						echo "<br />";
-						echo $numeratorsql;
+						if($DEBUG_MODE){
+							echo $numeratorsql;
+						}
 
 			$denominatorsql = $select . $fromdenominator . $wheredenominator . $subselectdenominator . $denominatoronly
 					. $denominatorexclusionsstring;
 
 						echo "<br />";
 						echo "<br />";
-						echo $denominatorsql;
+						if($DEBUG_MODE){
+							echo $denominatorsql;
+						}
 
 			if ($_POST['submitQuery'] == "submit") {
 				mysqli_select_db($db_link, $patientsdbname);
@@ -835,7 +840,10 @@ if (isset($_COOKIE['user'])) {
 				}
 				$patients = mysqli_fetch_assoc($result);
 				$_SESSION["patients"] = $patients;
-				print_r($patients);
+				if($DEBUG_MODE){
+					print_r($patients);
+				}
+	
 				$numberautonumerator = mysqli_num_rows($result);
 				$result = mysqli_query($db_link, $denominatorsql);
 

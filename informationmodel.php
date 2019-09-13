@@ -122,17 +122,17 @@ if (isset($_COOKIE['user'])) {
 							if ($num_rows == 0) {
 								$sql = "INSERT INTO query_variable (`variableid`, `userid`, `indicatorid`, `variable`, `table`, `inserted`) VALUES (
 								NULL,
-								$userid,
-								$indicatorid,
+								'$userid',
+								'$indicatorid',
 								'$aliasname',
 								'$aliasfortable', NOW())";
-								mysqli_query($sql);
+								mysqli_query($db_link,$sql);
 							}
 							// save constraint
-							$sql = "' INTO formalised_constraint (`id`, `userid`, `indicatorid`, `constrainttype`, `indicatortext`, `table`, `attribute`, `conceptid`, `relation`, `date`, `table2`, `attribute2`, `number`, `isexclusion`, `numeratoronly`, `inserted`) VALUES (
+							$sql = "INSERT INTO formalised_constraint (`id`, `userid`, `indicatorid`, `constrainttype`, `indicatortext`, `table`, `attribute`, `conceptid`, `relation`, `date`, `table2`, `attribute2`, `number`, `isexclusion`, `numeratoronly`, `inserted`) VALUES (
 							NULL,
-							$userid,
-							$indicatorid,
+							'$userid',
+							'$indicatorid',
 							'informationmodel',
 							NULL,
 							'$aliasname',
@@ -188,12 +188,13 @@ if (isset($_COOKIE['user'])) {
 						$_SESSION['queryvariableerror'] = "Nothing saved: same row already in database. ";
 					} else {
 						$prepvariable = PrepSQL($queryvariable);
-						$sql = "INSERT INTO query_variable (`variableid`, `userid`, `indicatorid`, `variable`, `table`, `inserted`) VALUES (
+						$sql = "INSERT INTO query_variable (`variableid`, `userid`, `indicatorid`, `variable`, `table`, `inserted`, `isexclusion`) VALUES (
 						NULL,
 						$userid,
 						$indicatorid,
 						'$prepvariable',
-						'$table', NOW())";
+						'$table', NOW(),
+						'0')";
 						mysqli_query($db_link,$sql);
 						$queryvariable = "";
 						$table = "";
