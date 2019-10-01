@@ -125,7 +125,7 @@ if (isset($_COOKIE['user'])) {
 				}
 			}
 			if ($_POST['form'] == "activeconstraints") {
-				$allconstraints = mysqli_query(
+				$allconstraints = mysqli_query($db_link,
 						"SELECT * FROM formalised_constraint WHERE indicatorid = '$indicatorid' AND userid = '$userid'");
 				if (!$allconstraints)
 					error(mysqli_error());
