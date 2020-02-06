@@ -125,7 +125,7 @@ if (isset($_COOKIE['user'])) {
 				}
 			}
 			if ($_POST['form'] == "activeconstraints") {
-				$allconstraints = mysqli_query(
+				$allconstraints = mysqli_query($db_link,
 						"SELECT * FROM formalised_constraint WHERE indicatorid = '$indicatorid' AND userid = '$userid'");
 				if (!$allconstraints)
 					error(mysqli_error());
@@ -814,20 +814,20 @@ if (isset($_COOKIE['user'])) {
 					. $subselectdenominator . $subselectnumerator . $numeratorexclusionsstring
 					. $denominatorexclusionsstring . $queryvariableexclusionstringnumerator . $grouper;
 
-						echo "<br />";
-						echo "<br />";
-						echo "<br />";
-						echo "<br />";
 						if($DEBUG_MODE){
+							echo "<br />";
+							echo "<br />";
+							echo "<br />";
+							echo "<br />";	
 							echo $numeratorsql;
 						}
 
 			$denominatorsql = $select . $fromdenominator . $wheredenominator . $subselectdenominator . $denominatoronly
 					. $denominatorexclusionsstring . $grouper;
 
-						echo "<br />";
-						echo "<br />";
 						if($DEBUG_MODE){
+							echo "<br />";
+							echo "<br />";
 							echo $denominatorsql;
 						}
 
