@@ -213,7 +213,8 @@ if (isset($_COOKIE['user'])) {
 					$pos = strpos($selectedattribute, ".");
 					$table = substr($selectedattribute, 0, $pos);
 					$attribute = substr($selectedattribute, ($pos + 1), strlen($selectedattribute));
-					$numquery = "SELECT * FROM `formalised_constraint` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' AND `constrainttype` = 'informationmodel' AND `table` = '$table' AND `attribute` = '$attribute' AND `conceptid` = $selectedconceptid";
+					print_r($selectedconceptid);
+					$numquery = "SELECT * FROM `formalised_constraint` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' AND `constrainttype` = 'informationmodel' AND `table` = '$table' AND `attribute` = '$attribute' AND `conceptid` = '$selectedconceptid'";
 					$result = mysqli_query($db_link,$numquery);
 					if (!$result)
 						error(mysqli_error());

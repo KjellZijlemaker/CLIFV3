@@ -1,9 +1,9 @@
 <?php
 // Report all PHP errors (see changelog)
-//error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 // Report all PHP errors
-//error_reporting(-1);
+error_reporting(-1);
 ini_set('display_errors', -1);
 require_once 'inc/util.inc';
 session_start();
@@ -11,15 +11,16 @@ $_SESSION['error'] = "";
 if (isset($_COOKIE['user'])) {
 	$username = $_COOKIE['user'];
 	$password = $_COOKIE['pass'];
-	$db_link = mysqli_connect($db, $db_user, $db_pass);
-	if (!$db_link)
-		error(mysqli_error());
-	mysqli_query($db_link,"SET SESSION interactive_timeout=30");
-	mysqli_select_db($db_link,$dbname);
-	$user = mysqli_query($db_link, "SELECT * FROM user WHERE firstname = '$username'");
-	if (!$user)
-		error(mysqli_error());
-	while ($userinfo = mysqli_fetch_array($user)) {
+	// $db_link = mysqli_connect($db, $db_user, $db_pass);
+	// if (!$db_link)
+	// 	error(mysqli_error());
+	// mysqli_query($db_link,"SET SESSION interactive_timeout=30");
+	// mysqli_select_db($db_link,$dbname);
+	$stmt = $mysqli->prepare("SELECT * FROM user WHERE firstname = ?");
+	$stmt->bind_param("s", $_POST['username']);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	while($row = $userinfo->fetch_assoc()) {
 		if ($password == $userinfo['password']) {
 			$_SESSION['unlocked'] = $userinfo['unlocked'];
 			if ((bool) $_SESSION['unlocked']) {
@@ -29,9 +30,10 @@ if (isset($_COOKIE['user'])) {
 			}
 			return;
 		}
-	}
-	mysqli_free_result($user);
-	mysqli_close($db_link);
+	  }
+	$stmt->close();
+
+	
 }
 //if the login form is submitted
 if (isset($_POST['submit'])) {
@@ -39,40 +41,40 @@ if (isset($_POST['submit'])) {
 	if (!$_POST['username'] | !$_POST['password']) {
 		die('You did not fill in a required field.');
 	}
-	$db_link2 = mysqli_connect($db, $db_user, $db_pass);
-	if (!$db_link2)
-		error(mysqli_error());
-	mysqli_select_db($db_link2, $dbname);
-	$user2 = mysqli_query($db_link2, "SELECT * FROM user WHERE firstname = '" . $_POST['username'] . "'");
-	if (!$user2)
-		error(mysqli_error());
-	//Gives error if user dosen't exist
-	$number = mysqli_num_rows($user2);
-	if ($number == 0) {
-		die('That user does not exist in our database.');
+	$stmt = $mysqli->prepare("SELECT * FROM user WHERE firstname = ?");
+	$stmt->bind_param("s", $_POST['username']);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	print_r($result->num_rows);
+	// If no rows, user does not exists
+	if($result->num_rows === 0) exit('That user does not exist in our database.');
+	
+
+	$userinfo = $result->fetch_assoc();
+
+	//gives error if the password is wrong
+	if ($_POST['password'] != $userinfo['password']) {
+		die('Incorrect password, please try again.');
+	} else {
+	
+	// if login is ok then we add a cookie
+	$_POST['username'] = stripslashes($_POST['username']);
+	$twohours = time() + 7200;
+	setcookie('user', $_POST['username'], $twohours);
+	setcookie('pass', $_POST['password'], $twohours);
+	//then redirect them
+	$_SESSION['unlocked'] = $userinfo['unlocked'];
+	if ((bool) $_SESSION['unlocked']) {
+		header("Location: index.php");
+	} else {
+		header("Location: unlock.php");
 	}
-	while ($userinfo = mysqli_fetch_array($user2)) {
-		//gives error if the password is wrong
-		if ($_POST['password'] != $userinfo['password']) {
-			die('Incorrect password, please try again.');
-		} else {
-			// if login is ok then we add a cookie
-			$_POST['username'] = stripslashes($_POST['username']);
-			$twohours = time() + 7200;
-			setcookie('user', $_POST['username'], $twohours);
-			setcookie('pass', $_POST['password'], $twohours);
-			//then redirect them
-			$_SESSION['unlocked'] = $userinfo['unlocked'];
-			if ((bool) $_SESSION['unlocked']) {
-				header("Location: index.php");
-			} else {
-				header("Location: unlock.php");
-			}
-			return;
-		}
+	return;
 	}
-	mysqli_free_result($user2);
-	mysqli_close($db_link2);
+	
+
+	$stmt->close();
+	
 } else {
 	// if they are not logged in
 ?>

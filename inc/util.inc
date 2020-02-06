@@ -10,12 +10,20 @@ $commentcomment = "Please document all questions that you had, ambiguities and h
 $db = "localhost";
 $db_user = "root";
 $db_pass = "";
-$dbname = "scriptie";
-$patientsdbname = "patients_new";
+$dbname = "AI&Health";
+$patientsdbname = "AI&Health_patients";
 $snomeddbname = "snomedct_full";
 
-$patienttables = array("patient", "firstpage", "lab_test", "examination", "treatment");
-$codecolumns = array("diagnosis_code_SNOMED", "test_code_SNOMED", "examination_code_SNOMED", "treatment_code_SNOMED");
+$mysqli = new mysqli($db, $db_user, $db_pass, $dbname);
+if($mysqli->connect_error) {
+  exit('Error connecting to database'); //Should be a message a typical user could understand in production
+}
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$mysqli->set_charset("utf8mb4");
+
+$patienttables = array("allergies", "careplans", "conditions", "encounters", "imaging_studies", "immunizations", "medications", "observations", "orginizations", "patient", "payers",
+"payer_transitions", "procedures", "providers2");
+$codecolumns = array("CODE", "REASONCODE");
 
 
 function endsWith($haystack, $needle)

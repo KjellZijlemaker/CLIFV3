@@ -144,7 +144,8 @@ if (isset($_COOKIE['user'])) {
 					}
 				}
 			}
-			$select = 'SELECT DISTINCT * ';
+			$select = 'SELECT * ';
+			$grouper = 'GROUP BY patient.patientid';
 			$fromnumerator = "";
 			$fromdenominator = "FROM `$patientsdbname`.`patient` \r\n";
 			$queryvariableexclusionstringnumerator = "";
@@ -809,10 +810,9 @@ if (isset($_COOKIE['user'])) {
 			if (($wheredenominator == "") && ($wherenumerator != "")) {
 				$wherenumerator = "WHERE " . $wherenumerator;
 			}
-
 			$numeratorsql = $select . $fromdenominator . $fromnumerator . $wheredenominator . $wherenumerator
 					. $subselectdenominator . $subselectnumerator . $numeratorexclusionsstring
-					. $denominatorexclusionsstring . $queryvariableexclusionstringnumerator;
+					. $denominatorexclusionsstring . $queryvariableexclusionstringnumerator . $grouper;
 
 						echo "<br />";
 						echo "<br />";
@@ -823,7 +823,7 @@ if (isset($_COOKIE['user'])) {
 						}
 
 			$denominatorsql = $select . $fromdenominator . $wheredenominator . $subselectdenominator . $denominatoronly
-					. $denominatorexclusionsstring;
+					. $denominatorexclusionsstring . $grouper;
 
 						echo "<br />";
 						echo "<br />";
@@ -833,25 +833,54 @@ if (isset($_COOKIE['user'])) {
 
 			if ($_POST['submitQuery'] == "submit") {
 				mysqli_select_db($db_link, $patientsdbname);
-				$result = mysqli_query($db_link, $numeratorsql);
-				if (!$result) {
+				$numeratorresult = mysqli_query($db_link, $numeratorsql);
+				if (!$numeratorresult) {
+					print_r("sok");
 					error(mysqli_error(), $numeratorsql, $step, $userid, $indicatorid);
 					$_SESSION['error_num'] = mysqli_error();
 				}
-				$patients = mysqli_fetch_assoc($result);
-				$_SESSION["patients"] = $patients;
+
+				while ($row = mysqli_fetch_assoc($numeratorresult)) {
+					$numeratorresults[] = $row;
+				}
+				$_SESSION["numeratorresults"] = $numeratorresults;
+				// print_r($numeratorresults);
 				if($DEBUG_MODE){
-					print_r($patients);
+					print_r($numeratorresults);
+				}
+
+
+				$denominatorresult = mysqli_query($db_link, $denominatorsql);
+				if (!$denominatorsql) {
+					print_r("sok");
+					error(mysqli_error(), $denominatorsql, $step, $userid, $indicatorid);
+					$_SESSION['error_num'] = mysqli_error();
+				}
+
+				
+				while ($row = mysqli_fetch_assoc($denominatorresult)) {
+					$denominatorresults[] = $row;
+				}
+
+				
+				$_SESSION["denominatorresults"] = $denominatorresults;
+				if($DEBUG_MODE){
+					echo "<br />";
+					echo "<br />";
+					echo "<br />";
+					echo "<br />";
+					echo "<br />";
+					print_r($denominatorresults);
 				}
 	
-				$numberautonumerator = mysqli_num_rows($result);
-				$result = mysqli_query($db_link, $denominatorsql);
+				$numberautonumerator = mysqli_num_rows($numeratorresult);
+				// $numeratorresult = mysqli_query($db_link, $denominatorsql);
 
-				if (!$result) {
-					error(mysqli_error(), $denominatorsql, $step, $userid, $indicatorid);
-					$_SESSION['error_denom'] = mysqli_error();
-				}
-				$numberautodenominator = mysqli_num_rows($result);
+				// if (!$numeratorresult) {
+				// 	error(mysqli_error(), $denominatorsql, $step, $userid, $indicatorid);
+				// 	$_SESSION['error_denom'] = mysqli_error();
+				// }
+				$numberautodenominator = mysqli_num_rows($denominatorresult);
 				if($autodenominatorresult != null){
 					mysqli_free_result($autodenominatorresult);
 				}
@@ -861,6 +890,14 @@ if (isset($_COOKIE['user'])) {
 						. $numberautodenominator . " patients = " . round($rate, 2) . "%";
 				mysqli_select_db($db_link, $dbname);
 			}
+			if ($_POST['savenumerator'] == "submit") {
+				header("Location: getnumeratorresults.php");	
+			}
+			if ($_POST['savedenominator'] == "submit") {
+				header("Location: getdenominatorresults.php");	
+			}
+
+
 			$commentresult = mysqli_query($db_link, 
 					"SELECT * FROM comment WHERE userid = '$userid' AND indicatorid = '$indicatorid' AND step = '$step'");
 			if (!$commentresult)
@@ -1257,12 +1294,16 @@ if (isset($_COOKIE['user'])) {
 			$query = $query . "<span style='color:red'><br />" . $numeratorexclusionsstring . "</span>";
 			$query = $query . "<span style='color:red'><br />" . $queryvariableexclusionstringnumerator
 					. "</span><br /><br />";
-
+			$query = $query . $grouper . "<br /><br />";
 			echo str_replace("\r\n", "<br />", $query);
 						?>
 					</tt>
 					<button type="submit" class="btn small primary" name="submitQuery"
 						value="submit">Run constructed query</button>
+						<button type="submit" class="btn small primary" name="savenumerator"
+						value="submit">Save numerator results</button>
+						<button type="submit" class="btn small primary" name="savedenominator"
+						value="submit">Save non-passed results</button>
 					<?php echo $autoresult; ?>
 					<br /> <span style="color: red"> <?php
 			if ($_SESSION['error_num'] != "") {
