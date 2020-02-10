@@ -17,10 +17,14 @@ foreach($_SESSION["denominatorresults"] as $value){
     }
 }
 
-header('Content-Type: application/text');
-header('Content-Disposition: attachment; filename="non-passed.json"');
 
 $newarr = json_encode($newarr);
+$tempfilename = jsonToCSV($newarr, "non-passed.csv");
 
-print_r($newarr);
+header('Content-Type: application/csv');
+header('Content-Disposition: attachment; filename=non-passed.csv');
+header('Pragma: no-cache');
+readfile($tempfilename);
+unlink($tempfilename);
+// print_r($newarr);
 ?>

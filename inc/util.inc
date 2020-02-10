@@ -100,4 +100,25 @@ function getRelation($relation) {
 
 	return("error");
 }
+
+function jsonToCSV($arr, $cfilename)
+{
+	$bytes = random_bytes(16);
+	$cfilename = "temp/" . $cfilename . $random_bytes;
+    $data = json_decode($arr, true);
+    $fp = fopen($cfilename, 'w');
+    $header = false;
+    foreach ($data as $row)
+    {
+        if (empty($header))
+        {
+            $header = array_keys($row);
+            fputcsv($fp, $header);
+            $header = array_flip($header);
+        }
+        fputcsv($fp, array_merge($header, $row));
+    }
+    fclose($fp);
+    return $cfilename;
+}
 ?>

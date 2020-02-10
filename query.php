@@ -384,7 +384,7 @@ if (isset($_COOKIE['user'])) {
 							unset($extrajoins[$subtable1]);
 							unset($extrajoins[$subtable2]);
 						} else {
-							$fromnumerator = $newconstraintjoin . $fromnumerator;
+							$from = $newconstraintjoin . $fromnumerator;
 						}
 					} else {
 						$fromnumerator = $newconstraintjoin . $fromnumerator;
@@ -822,7 +822,7 @@ if (isset($_COOKIE['user'])) {
 							echo $numeratorsql;
 						}
 
-			$denominatorsql = $select . $fromdenominator . $wheredenominator . $subselectdenominator . $denominatoronly
+			$denominatorsql = $select . $fromdenominator . $fromnumerator . $wheredenominator . $subselectdenominator . $denominatoronly
 					. $denominatorexclusionsstring . $grouper;
 
 						if($DEBUG_MODE){
