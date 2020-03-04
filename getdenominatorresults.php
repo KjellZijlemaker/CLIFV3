@@ -26,5 +26,4 @@ header('Content-Disposition: attachment; filename=non-passed.csv');
 header('Pragma: no-cache');
 readfile($tempfilename);
 unlink($tempfilename);
-// print_r($newarr);
 ?>
