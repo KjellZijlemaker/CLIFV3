@@ -399,8 +399,7 @@ if (isset($_COOKIE['user'])) {
 						<td><input class="input-medium" type="text" name="indicatorText" maxlength="50"
 							value="<?php echo $indicatorText; ?>" />
 						</td>
-						<td><select name="tableattributeSelect"
-							onchange="this.form.submit();">
+						<td><select name="tableattributeSelect">
 								<option value="">please choose</option>
 								<?php
 			$variablesql = "SELECT * FROM `query_variable` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' ORDER BY `variable`";
@@ -456,35 +455,35 @@ if (isset($_COOKIE['user'])) {
 			mysqli_select_db($db_link, $dbname);
 								?>
 						</select></td>
-						<td><select name="relationSelect" onchange="this.form.submit();">
+						<td><select name="relationSelect"">
 								<option value="">please choose</option>
 								<option
-								<? if ($relation == "less-than")
+								<? if (isset($relation) && ($relation == "less-than"))
 				echo (" selected='selected'");
 								?>
 									value="less-than">&lt;</option>
 								<option
-								<? if ($relation == "less-than-or-equal-to")
+								<? if (isset($relation) && ($relation == "less-than-or-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="less-than-or-equal-to">&le;</option>
 								<option
-								<? if ($relation == "equal-to")
+								<? if (isset($relation) && ($relation == "equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="equal-to">=</option>
 								<option
-								<? if ($relation == "not-equal-to")
+								<? if (isset($relation) && ($relation == "not-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="not-equal-to">!=</option>
 								<option
-								<? if ($relation == "greater-than-or-equal-to")
+								<? if (isset($relation) && ($relation == "greater-than-or-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="greater-than-or-equal-to">&ge;</option>
 								<option
-								<? if ($relation == "greater-than")
+								<? if (isset($relation) && ($relation == "greater-than"))
 				echo (" selected='selected'");
 								?>
 									value="greater-than">&gt;</option>
@@ -541,8 +540,7 @@ if (isset($_COOKIE['user'])) {
 						<td><input class="input-medium" type="text" name="indicatorText" maxlength="50"
 							value="<?php echo $indicatorText; ?>" />
 						</td>
-						<td><select name="tableattribute1Select"
-							onchange="this.form.submit();">
+						<td><select name="tableattribute1Select">
 								<option value="">please choose</option>
 								<?php
 			$variablesql = "SELECT * FROM `query_variable` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' ORDER BY `variable`";
@@ -598,35 +596,35 @@ if (isset($_COOKIE['user'])) {
 			mysqli_select_db($db_link, $dbname);
 								?>
 						</select></td>
-						<td><select name="relation1Select" onchange="this.form.submit();">
+						<td><select name="relation1Select">
 								<option value="">please choose</option>
 								<option
-								<? if ($relation1 == "less-than")
+								<? if (isset($relation) && ($relation1 == "less-than"))
 				echo (" selected='selected'");
 								?>
 									value="less-than">&lt;</option>
 								<option
-								<? if ($relation1 == "less-than-or-equal-to")
+								<? if (isset($relation) && (relation1 == "less-than-or-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="less-than-or-equal-to">&le;</option>
 								<option
-								<? if ($relation1 == "equal-to")
+								<? if (isset($relation) && ($relation1 == "equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="equal-to">=</option>
 								<option
-								<? if ($relation1 == "not-equal-to")
+								<? if (isset($relation) && ($relation1 == "not-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="not-equal-to">!=</option>
 								<option
-								<? if ($relation1 == "greater-than-or-equal-to")
+								<? if (isset($relation) && ($relation1 == "greater-than-or-equal-to"))
 				echo (" selected='selected'");
 								?>
 									value="greater-than-or-equal-to">&ge;</option>
 								<option
-								<? if ($relation1 == "greater-than")
+								<? if (isset($relation) && ($relation1 == "greater-than"))
 				echo (" selected='selected'");
 								?>
 									value="greater-than">&gt;</option>
@@ -720,10 +718,10 @@ if (isset($_COOKIE['user'])) {
 				$color = "black";
 				if ((bool) $islastvalue)
 					$color = "blue";
-				$fsn = mysqli_query($db_link, "SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core  WHERE CONCEPTID = '$conceptid' ");
-				if (!$fsn)
-					error(mysqli_error());
-				$snorow = mysqli_fetch_row($fsn);
+// 				$fsn = mysqli_query($db_link, "SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core  WHERE CONCEPTID = '$conceptid' ");
+// 				if (!$fsn)
+// 					error(mysqli_error());
+// 				$snorow = mysqli_fetch_row($fsn);
 				echo "<input type='checkbox' name='constraints[]' value='$id' onchange='this.form.submit();'";
 				if ((bool) $islastvalue) {
 					echo " checked = 'checked' ";

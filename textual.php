@@ -177,8 +177,7 @@ if (isset($_COOKIE['user'])) {
 						<td><input type="text" name="indicatorText" maxlength="100"
 							value="<?php echo $indicatorText; ?>" />
 						</td>
-						<td><select name="tableattributeSelect"
-							onchange="this.form.submit();" class="input-large shadow_slect">
+						<td><select name="tableattributeSelect" class="input-large shadow_slect">
 								<option value="">please choose</option>
 								<?php
 			$variablesql = "SELECT * FROM `query_variable` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' ORDER BY `variable`";
@@ -235,35 +234,35 @@ if (isset($_COOKIE['user'])) {
 			mysqli_select_db($db_link, $dbname);
 								?>
 						</select></td>
-						<td><select name="relationSelect" onchange="this.form.submit();" class="input-large shadow_slect">
+						<td><select name="relationSelect" class="input-large shadow_slect">
 								<option value="">please choose</option>
 								<option
-								<? if ($relation == "less-than")
+								<? if (isset($relation) && ($relation == "less-than"))
 				echo (" selected=\"selected\"");
 								?>
 									value="less-than">&lt;</option>
 								<option
-								<? if ($relation == "less-than-or-equal-to")
+								<? if (isset($relation) && ($relation == "less-than-or-equal-to"))
 				echo (" selected=\"selected\"");
 								?>
 									value="less-than-or-equal-to">&le;</option>
 								<option
-								<? if ($relation == "equal-to")
+								<? if (isset($relation) && ($relation == "equal-to"))
 				echo (" selected=\"selected\"");
 								?>
 									value="equal-to">=</option>
 								<option
-								<? if ($relation == "not-equal-to")
+								<? if (isset($relation) && ($relation == "not-equal-to"))
 				echo (" selected=\"selected\"");
 								?>
 									value="not-equal-to">!=</option>
 								<option
-								<? if ($relation == "greater-than-or-equal-to")
+								<? if (isset($relation) && ($relation == "greater-than-or-equal-to"))
 				echo (" selected=\"selected\"");
 								?>
 									value="greater-than-or-equal-to">&ge;</option>
 								<option
-								<? if ($relation == "greater-than")
+								<? if (isset($relation) && ($relation == "greater-than"))
 				echo (" selected=\"selected\"");
 								?>
 									value="greater-than">&gt;</option>

@@ -43,7 +43,7 @@ if (isset($_COOKIE['user'])) {
 				$commentold = $commentinfo['comment'];
 			}
 			mysqli_free_result($commentresult);
-			if ($_POST['submitComment'] == "submit") {
+			if (isset($_POST['submitComment']) && $_POST['submitComment'] == "submit") {
 				$commentnew = $_POST['comment'];
 				$commentnewprep = PrepSQL($commentnew);
 				if ($commentnewprep != $commentcomment) {

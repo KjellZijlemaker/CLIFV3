@@ -1,10 +1,6 @@
 <?php
-
-ini_set('display_errors', 'On');
-ini_set('display_startup_errors', 'On');
-error_reporting(2);
 mb_internal_encoding( 'UTF-8' );
-
+error_reporting(0);
 $commentcomment = "Please document all questions that you had, ambiguities and how you resolved them, i.e. why you modelled the indicator the way you did. Also, please give us as much feedback as possible of what you think of the method, what you found easy and what difficult and the reasons for it. Your feedback is valuable for improving both this application and the indicators.";
 
 $db = "localhost";
@@ -23,7 +19,7 @@ $mysqli->set_charset("utf8mb4");
 
 $patienttables = array("allergies", "careplans", "conditions", "encounters", "imaging_studies", "immunizations", "medications", "observations", "orginizations", "patient", "payers",
 "payer_transitions", "procedures", "providers2");
-$codecolumns = array("CODE", "REASONCODE");
+$codecolumns = array("CODE");
 
 
 function endsWith($haystack, $needle)
@@ -60,7 +56,7 @@ function error($error, $query, $step, $userid, $indicatorid)
 	//not available anymore in php7
 //	if(get_magic_quotes_gpc())
 //	{
-		$value = stripslashes($value);
+// 		$value = stripslashes($value);
 //	}
 
 	//$value = mysqli_real_escape_string($db_link, $result);
@@ -74,27 +70,27 @@ function PrepSQL($value) {
 
 function getRelation($relation) {
 
-	if($relation=="less-than") {
+	if($relation=="less-than" || $relation == 'value="less-than"><') {
 		return("<");
 	}
 
-	if($relation=="less-than-or-equal-to") {
+	if($relation=="less-than-or-equal-to" || $relation == 'value="less-than-or-equal-to">?') {
 		return("<=");
 	}
 
-	if($relation=="equal-to") {
+	if($relation=="equal-to" || $relation=='value="equal-to">=') {
 		return("=");
 	}
 
-	if($relation=="not-equal-to") {
+	if($relation=="not-equal-to" || $relation == 'value="not-equal-to">!=') {
 		return("!=");
 	}
 
-	if($relation=="greater-than-or-equal-to") {
+	if($relation=="greater-than-or-equal-to" || $relation == 'value="greater-than-or-equal-to">?') {
 		return(">=");
 	}
 
-	if($relation=="greater-than") {
+	if($relation=="greater-than" || $relation == 'value="greater-than">>') {
 		return(">");
 	}
 

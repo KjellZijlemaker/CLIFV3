@@ -418,12 +418,12 @@ if (isset($_COOKIE['user'])) {
 			while ($row = mysqli_fetch_array($content)) {
 				$id = $row['id'];
 				$conceptid = $row['conceptid'];
-				$fsn = mysqli_query($db_link,
-						"SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core WHERE CONCEPTID = '$conceptid' ");
-				if (!$content)
-					error(mysqli_error());
-				$snorow = mysqli_fetch_row($fsn);
-				mysqli_free_result($fsn);
+// 				$fsn = mysqli_query($db_link,
+// 						"SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core WHERE CONCEPTID = '$conceptid' ");
+// 				if (!$content)
+// 					error(mysqli_error());
+// 				$snorow = mysqli_fetch_row($fsn);
+// 				mysqli_free_result($fsn);
 				$conceptexists = mysqli_query($db_link,
 						"SELECT * FROM concept WHERE conceptid = '$conceptid' AND userid = '$userid' AND indicatorid = '$indicatorid'");
 				if (!$conceptexists)

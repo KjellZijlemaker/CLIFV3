@@ -174,8 +174,7 @@ if (isset($_COOKIE['user'])) {
 						<td><input type="text" name="indicatorText" maxlength="100"
 							value="<?php echo $indicatorText; ?>" />
 						</td>
-						<td><select name="tableattributeSelect"
-							onchange="this.form.submit();">
+						<td><select name="tableattributeSelect">
 								<option value="">please choose</option>
 								<?php
 			$variablesql = "SELECT * FROM `query_variable` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' ORDER BY `variable`";
@@ -232,7 +231,7 @@ if (isset($_COOKIE['user'])) {
 								?>
 						</select></td>
 						<td>=</td>
-						<td><select name="booleanSelect" onchange="this.form.submit();">
+						<td><select name="booleanSelect">
 								<option value="">please choose</option>
 								<option <? if($boolean == "1")
 				echo (" selected=\"selected\"");

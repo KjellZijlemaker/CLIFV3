@@ -44,7 +44,7 @@ if (isset($_COOKIE['user'])) {
 				$commentold = $commentinfo['comment'];
 			}
 			mysqli_free_result($commentresult);
-			if ($_POST['submitComment'] == "submit") {
+			if (isset($_POST['submitComment']) && $_POST['submitComment'] == "submit") {
 				$commentnew = $_POST['comment'];
 				$commentnewprep = PrepSQL($commentnew);
 				$comment = $commentnewprep;
@@ -69,7 +69,7 @@ if (isset($_COOKIE['user'])) {
 				}
 				mysqli_free_result($commentresult);
 			}
-			if ($_POST['submitConcept'] == "submit") {
+			if (isset($_POST['submitConcept']) && $_POST['submitConcept'] == "submit") {
 				$textConcept = $_POST['textConcept'];
 				$textSNOMED = $_POST['textSNOMED'];
 				if (empty($textConcept) && empty($textSNOMED)) {
@@ -185,25 +185,25 @@ if (isset($_COOKIE['user'])) {
 			while ($row = mysqli_fetch_array($content)) {
 				$id = $row['id'];
 				$conceptid = $row['conceptid'];
-				$fsn = mysqli_query($db_link,"SELECT Term FROM `$snomeddbname`.rf1_descriptions WHERE CONCEPTID = '$conceptid' ");
-				if (!$fsn)
-				 	error(mysqli_error());
-				$snorow = mysqli_fetch_row($fsn);
+// 				$fsn = mysqli_query($db_link,"SELECT Term FROM `$snomeddbname`.rf1_descriptions WHERE CONCEPTID = '$conceptid' ");
+// 				if (!$fsn)
+// 				 	error(mysqli_error());
+// 				$snorow = mysqli_fetch_row($fsn);
 				echo "<tr>";
 				echo "<td>" . $row['indicatortext'] . "</td>";
-				echo "<td>" . $row['conceptid'] . " " . $snorow[0] . "</td>";
+				echo "<td>" . $row['conceptid'] . "</td>";
 				echo "<td><a href='deleteconcept.php?id=$id'>x</a></td>";
 				echo "</tr>\n";
 			}
-			if (is_resource($fsn))
-				mysqli_free_result($fsn);
+// 			if (is_resource($fsn))
+// 				mysqli_free_result($fsn);
 					?>
 					<tr valign="top">
 						<td><input type="text" name="textConcept" maxlength="100"
-							value="<?php echo $textConcept; ?>" />
+							value="<?php if(isset($textConcept)){echo $textConcept;} ?>" />
 						</td>
 						<td><input type="text" name="textSNOMED" maxlength="50"
-							value="<?php echo $textSNOMED; ?>" />
+							value="<?php if(isset($textSNOMED)){echo $textSNOMED;} ?>" />
 						</td>
 						<td></td>
 					</tr>

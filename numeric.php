@@ -174,8 +174,7 @@ if (isset($_COOKIE['user'])) {
 						<td><input type="text" name="indicatorText" maxlength="100"
 							value="<?php echo $indicatorText; ?>" />
 						</td>
-						<td><select name="tableattributeSelect"
-							onchange="this.form.submit();" class="input-large shadow_slect">
+						<td><select name="tableattributeSelect" class="input-large shadow_slect">
 								<option value="">please choose</option>
 								<?php
 			$variablesql = "SELECT * FROM `query_variable` WHERE `userid` = '$userid'  AND `indicatorid` = '$indicatorid' ORDER BY `variable`";
@@ -232,7 +231,7 @@ if (isset($_COOKIE['user'])) {
 			mysqli_select_db($db_link, $dbname);
 								?>
 						</select></td>
-						<td><select name="relationSelect" onchange="this.form.submit();" class="input-large shadow_slect">
+						<td><select name="relationSelect" class="input-large shadow_slect">
 								<option value="">please choose</option>
 								<option
 								<? if ($relation == "less-than")

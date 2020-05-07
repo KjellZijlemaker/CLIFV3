@@ -135,10 +135,10 @@ if (isset($_COOKIE['user'])) {
 				$color = "black";
 				if ((bool) $numeratoronly)
 					$color = "green";
-				$fsn = mysqli_query($db_link, "SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core  WHERE CONCEPTID = '$conceptid' ");
-				if (!$fsn)
-					error(mysqli_error());
-				$snorow = mysqli_fetch_row($fsn);
+// 				$fsn = mysqli_query($db_link, "SELECT FULLYSPECIFIEDNAME FROM `$snomeddbname`.concepts_core  WHERE CONCEPTID = '$conceptid' ");
+// 				if (!$fsn)
+// 					error(mysqli_error());
+// 				$snorow = mysqli_fetch_row($fsn);
 				echo "<input type='checkbox' name='constraints[]' value='$id' onchange='this.form.submit();'";
 				if ((bool) $numeratoronly) {
 					echo " checked = 'checked' ";
